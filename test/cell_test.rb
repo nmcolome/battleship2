@@ -18,7 +18,7 @@ class CellTest < Minitest::Test
   end
 
   def test_it_returns_if_it_contains_a_ship
-    assert nil, @cell.ship
+    assert_nil @cell.ship
   end
 
   def test_it_returns_if_its_empty
