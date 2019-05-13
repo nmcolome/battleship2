@@ -36,4 +36,21 @@ class CellTest < Minitest::Test
 
     assert_instance_of Ship, @cell.ship
   end
+
+  def test_it_returns_if_fired_upon?
+    refute @cell.fired_upon?
+  end
+
+  def test_it_can_be_fired_upon
+    @cell.fire_upon
+
+    assert @cell.fired_upon?
+  end
+
+  def test_firing_hurts_a_ship
+    @cell.place_ship(@cruiser)
+    @cell.fire_upon
+
+    assert 2, cell.ship.health
+  end
 end
