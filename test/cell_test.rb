@@ -58,4 +58,40 @@ class CellTest < Minitest::Test
     assert 2, @cell.ship.health
     assert @cell.fired_upon?
   end
+
+  def test_it_renders_a_dot_if_a_cell_has_not_been_fired_upon
+    assert_equal ".", @cell.render
+  end
+
+  def test_it_renders_an_M_if_the_cell_has_been_fired_upon_and_it_does_not_contain_a_ship
+    @cell.fire_upon
+
+    assert_equal "M", @cell.render
+  end
+
+  def test_it_renders_an_H_if_the_cell_has_been_fired_upon_and_it_contains_a_ship
+    @cell.place_ship(@cruiser)
+
+    assert_equal "H", @cell.render
+  end
+
+  def test_it_renders_an_X_if_the_cell_has_been_fired_upon_and_its_ship_has_been_sunk
+    @cell.place_ship(@cruiser)
+    @cell.fire_upon
+
+    assert_equal "H", @cell.render
+    refute @cruiser.sunk?
+
+    @cruiser.hit
+    @cruiser.hit
+    assert @cruiser.sunk?
+    assert_equal "X", @cell.render
+  end
+
+  def test_it_renders_an_S_to_reveal_a_ship
+    @cell.place_ship(@cruiser)
+
+    assert_equal "S", @cell.render(true)
+  end
+
 end
