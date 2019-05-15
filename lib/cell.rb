@@ -1,5 +1,3 @@
-require 'pry'
-
 class Cell
   attr_reader :coordinate, :ship
 
@@ -40,9 +38,3 @@ class Cell
     end
   end
 end
-
-# fired upon | has a ship
-# .  No         | No
-# M  Yes        | No
-# H  Yes        | Yes
-# X  Yes        | Yes  -- no lives
