@@ -1,3 +1,5 @@
+require 'pry'
+
 class Cell
   attr_reader :coordinate, :ship
 
@@ -23,4 +25,24 @@ class Cell
     ship.hit if ship
     @hit = true
   end
+
+  def render(option=false)
+    if option
+      "S"
+    elsif !@hit && @ship.nil?
+      "."
+    elsif @hit && @ship.nil?
+      "M"
+    elsif @hit && @ship.health > 0
+      "H"
+    elsif @hit && @ship.health == 0
+      "X"
+    end
+  end
 end
+
+# fired upon | has a ship
+# .  No         | No
+# M  Yes        | No
+# H  Yes        | Yes
+# X  Yes        | Yes  -- no lives
