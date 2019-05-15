@@ -2,7 +2,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/ship'
 require './lib/cell'
-require 'pry'
 
 class CellTest < Minitest::Test
   def setup
@@ -38,7 +37,7 @@ class CellTest < Minitest::Test
     assert_instance_of Ship, @cell.ship
   end
 
-  def test_it_returns_if_fired_upon?
+  def test_it_returns_if_fired_upon
     refute @cell.fired_upon?
   end
 
@@ -71,6 +70,7 @@ class CellTest < Minitest::Test
 
   def test_it_renders_an_H_if_the_cell_has_been_fired_upon_and_it_contains_a_ship
     @cell.place_ship(@cruiser)
+    @cell.fire_upon
 
     assert_equal "H", @cell.render
   end
@@ -93,5 +93,4 @@ class CellTest < Minitest::Test
 
     assert_equal "S", @cell.render(true)
   end
-
 end
