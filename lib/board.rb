@@ -32,28 +32,34 @@ class Board
 
   def valid_placement?(ship, coordinates)
     length_matches?(ship, coordinates)
-    consecutive_coordinates?(coordinates)
+    rows_and_columns(coordinates)
   end
 
   def length_matches?(ship, coordinates)
     ship.length == coordinates.count
   end
 
-  def consecutive_coordinates?(coordinates)
-    letters = @cells.keys.map { |e| e.split("") }.transpose[0].uniq
+  def rows_and_columns(coordinates)
     ranges = coordinates.map {|e| e.split("")}.transpose
     columns = ranges[0]
     rows = ranges[1].map { |row| row.to_i }
-    if columns.uniq.count != 1 && rows.uniq.count != 1
-      false
-    elsif columns.uniq.count == 1 && rows.reverse.reduce(:-) == 0
+    consecutive_coordinates?(rows, columns)
+  end
+
+  def consecutive_coordinates?(rows, columns)
+    if columns.uniq.count == 1 && rows.reverse.reduce(:-) == 0
       true
-    elsif rows.uniq.count == 1
-      starting_letter_index = letters.index(columns[0])
-      model = letters.slice(starting_letter_index, columns.length)
-      columns == model ? true : false
+    elsif rows.uniq.count == 1 && consecutive_columns?(columns)
+      true
     else
       false
     end
+  end
+
+  def consecutive_columns?(columns)
+    letters = @cells.keys.map { |e| e.split("") }.transpose[0].uniq
+    starting_letter_index = letters.index(columns[0])
+    model = letters.slice(starting_letter_index, columns.length)
+    columns == model
   end
 end
