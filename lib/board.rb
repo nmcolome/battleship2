@@ -1,4 +1,6 @@
 require './lib/cell'
+require './lib/ship'
+require 'pry'
 
 class Board
   attr_reader :cells
@@ -26,5 +28,32 @@ class Board
 
   def valid_coordinate?(coordinate)
     @cells[coordinate] ? true : false
+  end
+
+  def valid_placement?(ship, coordinates)
+    length_matches?(ship, coordinates)
+    consecutive_coordinates?(coordinates)
+  end
+
+  def length_matches?(ship, coordinates)
+    ship.length == coordinates.count
+  end
+
+  def consecutive_coordinates?(coordinates)
+    letters = @cells.keys.map { |e| e.split("") }.transpose[0].uniq
+    ranges = coordinates.map {|e| e.split("")}.transpose
+    columns = ranges[0]
+    rows = ranges[1].map { |row| row.to_i }
+    if columns.uniq.count != 1 && rows.uniq.count != 1
+      false
+    elsif columns.uniq.count == 1 && rows.reverse.reduce(:-) == 0
+      true
+    elsif rows.uniq.count == 1
+      starting_letter_index = letters.index(columns[0])
+      model = letters.slice(starting_letter_index, columns.length)
+      columns == model ? true : false
+    else
+      false
+    end
   end
 end
