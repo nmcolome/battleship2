@@ -31,8 +31,7 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    length_matches?(ship, coordinates)
-    rows_and_columns(coordinates)
+    length_matches?(ship, coordinates) && rows_and_columns(coordinates)
   end
 
   def length_matches?(ship, coordinates)
@@ -47,7 +46,7 @@ class Board
   end
 
   def consecutive_coordinates?(rows, columns)
-    if columns.uniq.count == 1 && rows.reverse.reduce(:-) == 0
+    if columns.uniq.count == 1 && consecutive_rows?(rows)
       true
     elsif rows.uniq.count == 1 && consecutive_columns?(columns)
       true
@@ -61,5 +60,10 @@ class Board
     starting_letter_index = letters.index(columns[0])
     model = letters.slice(starting_letter_index, columns.length)
     columns == model
+  end
+
+  def consecutive_rows?(rows)
+    differences = rows[0...rows.length-1].each_with_index { |r, i| rows[i+1] - r }
+    differences.all? { |e| e == 1}
   end
 end
