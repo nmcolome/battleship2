@@ -30,8 +30,8 @@ class Board
     @cells[coordinate] ? true : false
   end
 
-  def valid_placement?(ship, coordinates)
-    length_matches?(ship, coordinates) && rows_and_columns(coordinates)
+  def valid_placement?(ship, coord)
+    length_matches?(ship, coord) && rows_and_columns(coord) && overlap?(coord)
   end
 
   def length_matches?(ship, coordinates)
@@ -69,5 +69,10 @@ class Board
 
   def place(ship, coordinates)
     coordinates.each { |coord| @cells[coord].place_ship(ship) }
+  end
+
+  def overlap?(coordinates)
+    ships = coordinates.map { |coord| @cells[coord].empty? }
+    ships.none? { |value| value == false }
   end
 end
