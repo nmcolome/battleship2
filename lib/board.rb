@@ -1,5 +1,6 @@
 require './lib/cell'
 require './lib/ship'
+require 'pry'
 
 class Board
   attr_reader :cells
@@ -64,5 +65,9 @@ class Board
   def consecutive_rows?(rows)
     differences = rows[0...rows.length-1].each_with_index { |r, i| rows[i+1] - r }
     differences.all? { |e| e == 1}
+  end
+
+  def place(ship, coordinates)
+    coordinates.each { |coord| @cells[coord].place_ship(ship) }
   end
 end
