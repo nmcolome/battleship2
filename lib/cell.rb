@@ -1,3 +1,4 @@
+require 'pry'
 class Cell
   attr_reader :coordinate, :ship
 
@@ -25,9 +26,9 @@ class Cell
   end
 
   def render(option=false)
-    if option
+    if option && !@hit && !@ship.nil?
       "S"
-    elsif !@hit && @ship.nil?
+    elsif !@hit
       "."
     elsif @hit && @ship.nil?
       "M"
