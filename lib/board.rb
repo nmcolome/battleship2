@@ -1,6 +1,7 @@
 require './lib/cell'
 require './lib/ship'
 require 'pry'
+require 'benchmark'
 
 class Board
   attr_reader :cells
@@ -57,9 +58,9 @@ class Board
 
   def consecutive_columns?(columns)
     letters = @cells.keys.map { |e| e.split("") }.transpose[0].uniq
-    starting_letter_index = letters.index(columns[0])
-    model = letters.slice(starting_letter_index, columns.length)
-    columns == model
+    validation = []
+    letters.each_cons(columns.count) { |a| validation << (columns == a)}
+    validation.any? { |e| e == true}
   end
 
   def consecutive_rows?(rows)
