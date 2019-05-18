@@ -76,17 +76,19 @@ class Board
     ships.none? { |value| value == false }
   end
 
-  def render
+  def render(option=false)
     table = [" ", 1, 2, 3, 4]
-    render_cells(table)
+    render_cells(table, option)
     add_new_lines(table)
     table.join(" ")
   end
 
-  def render_cells(table)
+  def render_cells(table, option=false)
     %w[A B C D].each do |row|
       table << row
-      @cells.each { |key, value| table << value.render if key.include?(row) }
+      @cells.each do |key, value|
+        table << value.render(option) if key.include?(row)
+      end
     end
   end
 
