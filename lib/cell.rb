@@ -27,7 +27,7 @@ class Cell
   def render(option=false)
     if option
       "S"
-    elsif !@hit && @ship.nil?
+    elsif !@hit
       "."
     elsif @hit && @ship.nil?
       "M"
