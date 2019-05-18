@@ -75,4 +75,25 @@ class Board
     ships = coordinates.map { |coord| @cells[coord].empty? }
     ships.none? { |value| value == false }
   end
+
+  def render
+    table = [" ", 1, 2, 3, 4]
+    render_cells(table)
+    add_new_lines(table)
+    table.join(" ")
+  end
+
+  def render_cells(table)
+    %w[A B C D].each do |row|
+      table << row
+      @cells.each { |key, value| table << value.render if key.include?(row) }
+    end
+  end
+
+  def add_new_lines(table)
+    table.each_with_index do |element, index|
+      table[index] = "\n" + element if %w[A B C D].include?(element)
+    end
+    table << "\n"
+  end
 end
