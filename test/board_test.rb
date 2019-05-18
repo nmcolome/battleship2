@@ -66,4 +66,18 @@ class BoardTest < Minitest::Test
 
     refute @board.valid_placement?(@submarine, ["A1", "B1"])
   end
+
+  def test_render_the_board
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    rendering = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal rendering, @board.render
+  end
+
+  def skip test_render_the_board_showing_hidden_ships
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    rendering = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal rendering, @board.render(true)
+  end
 end
