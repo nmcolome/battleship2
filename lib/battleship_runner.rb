@@ -1,6 +1,7 @@
 require './lib/board'
 # require './lib/cell'
 # require './lib/ship'
+require 'pry'
 
 class BattleshipRunner
 
@@ -22,9 +23,20 @@ class BattleshipRunner
   def setup
     computer_setup
   end
-
+  
   def computer_setup
-    
+    ships = [@c_cruiser, @c_submarine]
+    ships.each do |ship|
+      cell = @computer_board.cells.keys.sample
+      direction = %w[vertical horizontal].sample
+        if direction == horizontal
+          starting_row = cell[0]
+          rows = Array.new(ship.length, starting_row)
+          starting_column = cell[1]
+          columns = (starting_column...(starting_column + ship.length))
+          pairs = rows.zip(columns)
+          cells = pairs.map { |pair| pair.join("")}
+
   end
 end
 
