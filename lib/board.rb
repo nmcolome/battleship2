@@ -1,5 +1,6 @@
 require './lib/cell'
 require './lib/ship'
+require 'pry'
 
 class Board
   attr_reader :cells
@@ -62,7 +63,10 @@ class Board
   end
 
   def consecutive_rows?(rows)
-    differences = rows[0...rows.length-1].each_with_index { |r, i| rows[i+1] - r }
+    differences = []
+    rows[0...-1].each_with_index do |r, i|
+      differences << (rows[i+1] - r)
+    end
     differences.all? { |e| e == 1}
   end
 
