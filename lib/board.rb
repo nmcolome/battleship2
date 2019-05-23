@@ -1,6 +1,5 @@
 require './lib/cell'
 require './lib/ship'
-require 'pry'
 
 class Board
   attr_reader :cells
