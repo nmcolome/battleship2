@@ -25,18 +25,25 @@ class BattleshipRunner
   end
   
   def computer_setup
+    abc = [*"A".."Z"]
     ships = [@c_cruiser, @c_submarine]
     ships.each do |ship|
       cell = @computer_board.cells.keys.sample
       direction = %w[vertical horizontal].sample
-        if direction == horizontal
-          starting_row = cell[0]
-          rows = Array.new(ship.length, starting_row)
-          starting_column = cell[1]
-          columns = (starting_column...(starting_column + ship.length))
-          pairs = rows.zip(columns)
-          cells = pairs.map { |pair| pair.join("")}
-
+      starting_row = cell[0]
+      starting_column = cell[1].to_i
+      if direction == "horizontal"
+        rows = Array.new(ship.length, starting_row)
+        columns = [*starting_column...(starting_column + ship.length)]
+      else
+        columns = Array.new(ship.length, starting_column)
+        starting_index = abc.index(starting_row)
+        rows = abc.slice(starting_index, ship.length)
+      end
+      pairs = rows.zip(columns)
+      cells = pairs.map { |pair| pair.join("") }
+      result = @computer_board.valid_placement?(ship, cells) ? @computer_board.place(ship, cells) : "fail"
+    end
   end
 end
 
