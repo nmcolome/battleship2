@@ -11,10 +11,12 @@ class BattleshipRunnerTest < Minitest::Test
     assert_instance_of BattleshipRunner, @game
   end
 
-  def test_welcome_message
-    message = "Welcome to BATTLESHIP
-    Enter p to play. Enter q to quit."
+  def test_the_coordinates_generator_for_the_computer_ship_placement
+    @ship = Ship.new("Cruiser", 2)
 
-    assert message, @game.start
+    assert_equal [["B", 2], ["B", 3]], @game.coordinates_generator("horizontal", "B", 2, @ship)
+    assert_equal [["C", 3], ["D", 3]], @game.coordinates_generator("vertical", "C", 3, @ship)
+    assert_equal [["D", 4], ["D", 5]], @game.coordinates_generator("horizontal", "D", 4, @ship)
+    assert_equal [["D", 4], ["E", 4]], @game.coordinates_generator("vertical", "D", 4, @ship)
   end
 end
