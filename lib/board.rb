@@ -31,7 +31,11 @@ class Board
   end
 
   def valid_placement?(ship, coord)
-    length_matches?(ship, coord) && rows_and_columns(coord) && overlap?(coord)
+    if length_matches?(ship, coord) && within_board?(coord)
+     rows_and_columns(coord) && overlap?(coord)
+    else
+      false
+    end
   end
 
   def length_matches?(ship, coordinates)
@@ -63,7 +67,10 @@ class Board
   end
 
   def consecutive_rows?(rows)
-    differences = rows[0...rows.length-1].each_with_index { |r, i| rows[i+1] - r }
+    differences = []
+    rows[0...-1].each_with_index do |r, i|
+      differences << (rows[i+1] - r)
+    end
     differences.all? { |e| e == 1}
   end
 
@@ -74,6 +81,11 @@ class Board
   def overlap?(coordinates)
     ships = coordinates.map { |coord| @cells[coord].empty? }
     ships.none? { |value| value == false }
+  end
+
+  def within_board?(coordinates)
+    matches = @cells.keys & coordinates
+    matches == coordinates
   end
 
   def render(option=false)

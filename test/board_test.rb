@@ -80,4 +80,9 @@ class BoardTest < Minitest::Test
 
     assert_equal rendering, @board.render(true)
   end
+
+  def test_valid_placement_verifies_coordinates_are_within_board
+    refute @board.valid_placement?(@cruiser, ["D3", "D4", "D5"])
+    refute @board.valid_placement?(@submarine, ["D4", "E4"])
+  end
 end
