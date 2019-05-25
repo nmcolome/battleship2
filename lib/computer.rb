@@ -51,5 +51,6 @@ class Computer
     available_cells = @board.cells.keys.find_all { |key| board.cells[key].fired_upon? == false }
     shot = available_cells.sample
     @board.cells[shot].fire_upon
+    shot
   end
 end
