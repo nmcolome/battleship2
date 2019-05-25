@@ -47,4 +47,10 @@ class Computer
     starting_column = cell[1].to_i
     [direction, starting_row, starting_column, cell]
   end
+
+  def shoot
+    available_cells = @board.cells.keys.find_all { |key| board.cells[key].fired_upon? == false }
+    shot = available_cells.sample
+    @board.cells[shot].fire_upon
+  end
 end
