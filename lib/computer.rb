@@ -55,6 +55,15 @@ class Computer
   end
 
   def result(shot, computer_board)
-    puts "Your shot on #{shot} was a #{computer_board.cells[shot].render}."
+    letter = computer_board.cells[shot].render
+    puts "Your shot on #{shot} #{meanings[letter]}."
+  end
+
+  def meanings
+    {
+      "M" => "was a miss",
+      "H" => "was a hit",
+      "X" => "sunk a ship"
+    }
   end
 end

@@ -41,6 +41,15 @@ class Player
   end
 
   def result(shot, player_board)
-    puts "My shot on #{shot} was a #{player_board.cells[shot].render}."
+    letter = player_board.cells[shot].render
+    puts "My shot on #{shot} #{meanings[letter]}."
+  end
+
+  def meanings
+    {
+      "M" => "was a miss",
+      "H" => "was a hit",
+      "X" => "sunk a ship"
+    }
   end
 end
