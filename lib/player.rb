@@ -19,7 +19,7 @@ class Player
 
   def coordinates_prompt(ship)
     input = gets.chomp
-    cells = input.split(" ")
+    cells = input.upcase.split(" ")
     if @board.valid_placement?(ship, cells)
       @board.place(ship, cells)
       puts @board.render(true)
@@ -29,7 +29,18 @@ class Player
     end
   end
 
-  # def shoot
-    
-  # end
+  def shoot(computer_board)
+    shot = gets.chomp.upcase
+    if computer_board.valid_coordinate?(shot)
+      computer_board.cells[shot].fire_upon
+    else
+      print "Please enter a valid coordinate:\n> "
+      shoot
+    end
+    shot
+  end
+
+  def result(shot, player_board)
+    puts "My shot on #{shot} was a #{player_board.cells[shot].render}."
+  end
 end

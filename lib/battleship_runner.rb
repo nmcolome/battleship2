@@ -28,10 +28,18 @@ class BattleshipRunner
 
   def turn
     puts "=============COMPUTER BOARD============="
-    puts @computer.board.render
+    puts @computer.board.render(true)
     puts "==============PLAYER BOARD=============="
     puts @player.board.render(true)
-    # @player.shoot
+    c_shot = @computer.shoot(@player.board)
+    print "Enter the coordinate for your shot:\n> "
+    p_shot = @player.shoot(@computer.board)
+    @computer.result(p_shot, @computer.board)
+    @player.result(c_shot, @player.board)
+    puts "=============COMPUTER BOARD============="
+    puts @computer.board.render(true)
+    puts "==============PLAYER BOARD=============="
+    puts @player.board.render(true)
   end
 end
 

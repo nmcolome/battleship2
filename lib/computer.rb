@@ -47,10 +47,14 @@ class Computer
     [direction, starting_row, starting_column, cell]
   end
 
-  def shoot
-    available_cells = @board.cells.keys.find_all { |key| board.cells[key].fired_upon? == false }
+  def shoot(player_board)
+    available_cells = player_board.cells.keys.find_all { |key| player_board.cells[key].fired_upon? == false }
     shot = available_cells.sample
-    @board.cells[shot].fire_upon
+    player_board.cells[shot].fire_upon
     shot
+  end
+
+  def result(shot, computer_board)
+    puts "Your shot on #{shot} was a #{computer_board.cells[shot].render}."
   end
 end
