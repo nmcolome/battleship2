@@ -12,7 +12,7 @@ class Player
   def setup
     ships = [@cruiser, @submarine]
     ships.each do |ship|
-      puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
+      print "Enter the squares for the #{ship.name} (#{ship.length} spaces):\n> "
       coordinates_prompt(ship)
     end
   end
@@ -24,8 +24,12 @@ class Player
       @board.place(ship, cells)
       puts @board.render(true)
     else
-      puts "Those are invalid coordinates. Please try again:"
+      print "Those are invalid coordinates. Please try again:\n> "
       coordinates_prompt(ship)
     end
   end
+
+  # def shoot
+    
+  # end
 end
