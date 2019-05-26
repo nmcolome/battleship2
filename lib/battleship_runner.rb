@@ -27,10 +27,8 @@ class BattleshipRunner
   end
 
   def turn
-    puts "=============COMPUTER BOARD============="
-    puts @computer.board.render(true)
-    puts "==============PLAYER BOARD=============="
-    puts @player.board.render(true)
+    puts "=============COMPUTER BOARD=============\n#{@computer.board.render}"
+    puts "==============PLAYER BOARD==============\n#{@player.board.render(true)}"
     c_shot = @computer.shoot(@player.board)
     print "Enter the coordinate for your shot:\n> "
     p_shot = @player.shoot(@computer.board)
@@ -40,12 +38,14 @@ class BattleshipRunner
 
   def runner
     turn
-    computer_health = @computer.ships.inject(0) {|sum, ship| sum + ship.length}
-    player_health = @player.ships.inject(0) {|sum, ship| sum + ship.length}
+    computer_health = @computer.ships.inject(0) {|sum, ship| sum + ship.health}
+    player_health = @player.ships.inject(0) {|sum, ship| sum + ship.health}
     if computer_health == 0
-      "You won!"
+      puts "You won!\n"
+      start
     elsif player_health == 0
-      "I won!"
+      puts "I won!\n"
+      start
     else
       runner
     end
