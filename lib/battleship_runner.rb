@@ -23,7 +23,7 @@ class BattleshipRunner
     print "To place your ships enter your coordinates with spaces (eg. A1 A2)"
     @player.setup
     puts "Ok! Let's play:"
-    turn
+    runner
   end
 
   def turn
@@ -36,10 +36,19 @@ class BattleshipRunner
     p_shot = @player.shoot(@computer.board)
     @computer.result(p_shot, @computer.board)
     @player.result(c_shot, @player.board)
-    puts "=============COMPUTER BOARD============="
-    puts @computer.board.render(true)
-    puts "==============PLAYER BOARD=============="
-    puts @player.board.render(true)
+  end
+
+  def runner
+    turn
+    computer_health = @computer.ships.inject(0) {|sum, ship| sum + ship.length}
+    player_health = @player.ships.inject(0) {|sum, ship| sum + ship.length}
+    if computer_health == 0
+      "You won!"
+    elsif player_health == 0
+      "I won!"
+    else
+      runner
+    end
   end
 end
 

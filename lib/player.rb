@@ -7,11 +7,11 @@ class Player
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 2)
     @submarine = Ship.new("Submarine", 3)
+    @ships = [@cruiser, @submarine]
   end
 
   def setup
-    ships = [@cruiser, @submarine]
-    ships.each do |ship|
+    @ships.each do |ship|
       print "Enter the squares for the #{ship.name} (#{ship.length} spaces):\n> "
       coordinates_prompt(ship)
     end

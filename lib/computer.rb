@@ -7,11 +7,11 @@ class Computer
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 2)
     @submarine = Ship.new("Submarine", 3)
+    @ships = [@cruiser, @submarine]
   end
 
   def setup
-    ships = [@cruiser, @submarine]
-    ships.each { |ship| assign_coordinates(ship) }
+    @ships.each { |ship| assign_coordinates(ship) }
     puts "I have laid out my ships on the grid."
   end
 
