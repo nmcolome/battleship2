@@ -1,7 +1,7 @@
 require './lib/board'
 
 class Computer
-  attr_reader :board, :cruiser, :submarine
+  attr_reader :board, :cruiser, :submarine, :ships
 
   def initialize
     @board = Board.new
@@ -56,7 +56,7 @@ class Computer
 
   def result(shot, computer_board)
     letter = computer_board.cells[shot].render
-    puts "Your shot on #{shot} #{meanings[letter]}."
+    puts "\nYour shot on #{shot} #{meanings[letter]}."
   end
 
   def meanings
