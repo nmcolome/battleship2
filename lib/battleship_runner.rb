@@ -2,7 +2,6 @@ require './lib/board'
 require 'pry'
 require './lib/computer'
 require './lib/player'
-require 'benchmark'
 
 class BattleshipRunner
 
