@@ -3,8 +3,8 @@ require './lib/cell'
 
 class CellTest < Minitest::Test
   def setup
-    @cell = Cell.new("B4")
-    @cruiser = Ship.new("Cruiser", 3)
+    @cell = Cell.new('B4')
+    @cruiser = Ship.new('Cruiser', 3)
   end
 
   def test_it_exists
@@ -12,7 +12,7 @@ class CellTest < Minitest::Test
   end
 
   def test_it_has_a_coordinate
-    assert "B4", @cell.coordinate
+    assert 'B4', @cell.coordinate
   end
 
   def test_it_returns_if_it_contains_a_ship
@@ -57,38 +57,38 @@ class CellTest < Minitest::Test
   end
 
   def test_it_renders_a_dot_if_a_cell_has_not_been_fired_upon
-    assert_equal ".", @cell.render
+    assert_equal '.', @cell.render
   end
 
-  def test_it_renders_an_M_if_the_cell_has_been_fired_upon_and_it_does_not_contain_a_ship
+  def test_it_renders_m_if_the_cell_has_been_fired_upon_and_it_does_not_have_a_ship
     @cell.fire_upon
 
-    assert_equal "M", @cell.render
+    assert_equal 'M', @cell.render
   end
 
-  def test_it_renders_an_H_if_the_cell_has_been_fired_upon_and_it_contains_a_ship
+  def test_it_renders_h_if_the_cell_has_been_fired_upon_and_it_contains_a_ship
     @cell.place_ship(@cruiser)
     @cell.fire_upon
 
-    assert_equal "H", @cell.render
+    assert_equal 'H', @cell.render
   end
 
-  def test_it_renders_an_X_if_the_cell_has_been_fired_upon_and_its_ship_has_been_sunk
+  def test_it_renders_x_if_the_cell_has_been_fired_upon_and_its_ship_has_been_sunk
     @cell.place_ship(@cruiser)
     @cell.fire_upon
 
-    assert_equal "H", @cell.render
+    assert_equal 'H', @cell.render
     refute @cruiser.sunk?
 
     @cruiser.hit
     @cruiser.hit
     assert @cruiser.sunk?
-    assert_equal "X", @cell.render
+    assert_equal 'X', @cell.render
   end
 
-  def test_it_renders_an_S_to_reveal_a_ship
+  def test_it_renders_s_to_reveal_a_ship
     @cell.place_ship(@cruiser)
 
-    assert_equal "S", @cell.render(true)
+    assert_equal 'S', @cell.render(true)
   end
 end

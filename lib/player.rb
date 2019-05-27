@@ -4,22 +4,22 @@ class Player
   attr_reader :board, :cruiser, :submarine, :ships
 
   def initialize
-    @board = Board.new(4, 4) #TODO - take input from user
-    @cruiser = Ship.new("Cruiser", 2)
-    @submarine = Ship.new("Submarine", 3)
+    @board = Board.new(4, 4) # TODO: take input from user
+    @cruiser = Ship.new('Cruiser', 2)
+    @submarine = Ship.new('Submarine', 3)
     @ships = [@cruiser, @submarine]
   end
 
   def setup
     @ships.each do |ship|
-      print "Enter the squares for the #{ship.name} (#{ship.length} spaces):\n> "
+      print "Enter the cells for the #{ship.name} (#{ship.length} spaces):\n> "
       coordinates_prompt(ship)
     end
   end
 
   def coordinates_prompt(ship)
     input = gets.chomp
-    cells = input.upcase.split(" ")
+    cells = input.upcase.split(' ')
     if @board.valid_placement?(ship, cells)
       @board.place(ship, cells)
       puts @board.render(true)
@@ -32,16 +32,20 @@ class Player
   def shoot(computer_board)
     shot = gets.chomp.upcase
     while !computer_board.valid_coordinate?(shot) || computer_board.cells[shot].fired_upon?
-      if !computer_board.valid_coordinate?(shot)
-        print "Please enter a valid coordinate:\n> "
-      else
-        print "You have already fired on that coordinate. Please enter a new one:\n> "
-      end
+      coordinate_feedback(shot)
       shot = gets.chomp.upcase
     end
 
     computer_board.cells[shot].fire_upon
     shot
+  end
+
+  def coordinate_feedback(computer_board, shot)
+    if !computer_board.valid_coordinate?(shot)
+      print "Please enter a valid coordinate:\n> "
+    else
+      print "You have already fired on that cell. Please enter a new one:\n> "
+    end
   end
 
   def result(shot, player_board)
@@ -51,9 +55,9 @@ class Player
 
   def meanings
     {
-      "M" => "was a miss",
-      "H" => "was a hit",
-      "X" => "sunk a ship"
+      'M' => 'was a miss',
+      'H' => 'was a hit',
+      'X' => 'sunk a ship'
     }
   end
 end

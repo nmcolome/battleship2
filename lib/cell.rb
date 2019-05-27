@@ -1,4 +1,4 @@
- require './lib/ship'
+require './lib/ship'
 
 class Cell
   attr_reader :coordinate, :ship
@@ -26,17 +26,17 @@ class Cell
     @hit = true
   end
 
-  def render(option=false)
+  def render(option = false)
     if option && !@hit && !@ship.nil?
-      "S"
+      'S'
     elsif !@hit
-      "."
+      '.'
     elsif @hit && @ship.nil?
-      "M"
+      'M'
     elsif @hit && @ship.health > 0
-      "H"
-    elsif @hit && @ship.health == 0
-      "X"
+      'H'
+    elsif @hit && @ship.health.zero?
+      'X'
     end
   end
 end
