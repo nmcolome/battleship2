@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/board'
-require 'pry'
+
 class BoardTest < Minitest::Test
   def setup
     @board = Board.new(4, 4)
@@ -54,7 +54,6 @@ class BoardTest < Minitest::Test
     cell_1 = @board.cells["A1"]
     cell_2 = @board.cells["A2"]
     cell_3 = @board.cells["A3"]
-    binding.pry
 
     assert_equal @cruiser, cell_1.ship
     assert_equal @cruiser, cell_2.ship
@@ -94,7 +93,4 @@ class BoardTest < Minitest::Test
 
     assert_equal result, @board.generator(rows, columns)
   end
-
 end
-
-
