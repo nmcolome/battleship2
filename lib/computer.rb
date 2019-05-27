@@ -4,7 +4,7 @@ class Computer
   attr_reader :board, :cruiser, :submarine, :ships
 
   def initialize
-    @board = Board.new
+    @board = Board.new(4, 4) #TODO - take input from user
     @cruiser = Ship.new("Cruiser", 2)
     @submarine = Ship.new("Submarine", 3)
     @ships = [@cruiser, @submarine]
