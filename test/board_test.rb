@@ -1,10 +1,10 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/board'
-
+require 'pry'
 class BoardTest < Minitest::Test
   def setup
-    @board = Board.new
+    @board = Board.new(4, 4)
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
@@ -29,7 +29,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement_matches_number_of_coordinates_with_ship_length
     refute @board.valid_placement?(@cruiser, ["A1", "A2"])
-    refute @board.valid_placement?(@submarine, ["A2", "A3", "A4"]) 
+    refute @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
   end
 
   def test_valid_placement_verifies_coordinates_are_consecutive
@@ -54,6 +54,7 @@ class BoardTest < Minitest::Test
     cell_1 = @board.cells["A1"]
     cell_2 = @board.cells["A2"]
     cell_3 = @board.cells["A3"]
+    binding.pry
 
     assert_equal @cruiser, cell_1.ship
     assert_equal @cruiser, cell_2.ship
@@ -86,13 +87,14 @@ class BoardTest < Minitest::Test
     refute @board.valid_placement?(@submarine, ["D4", "E4"])
   end
 
-  def test_generator
+  def test_generator_of_cell_names
     rows = 4
     columns = 4
     result = ["A1","A2","A3","A4","B1","B2","B3","B4","C1","C2","C3","C4","D1","D2","D3","D4"]
 
-    assert result, @board.generator(rows, columns)
+    assert_equal result, @board.generator(rows, columns)
   end
+
 end
 
 
