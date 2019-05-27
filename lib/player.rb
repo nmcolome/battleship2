@@ -31,15 +31,15 @@ class Player
 
   def shoot(computer_board)
     shot = gets.chomp.upcase
-    while !computer_board.valid_coordinate?(shot) do
-      print "Please enter a valid coordinate:\n> "
+    while !computer_board.valid_coordinate?(shot) || computer_board.cells[shot].fired_upon?
+      if !computer_board.valid_coordinate?(shot)
+        print "Please enter a valid coordinate:\n> "
+      else
+        print "You have already fired on that coordinate. Please enter a new one:\n> "
+      end
       shot = gets.chomp.upcase
     end
 
-    while computer_board.cells[shot].fired_upon? do
-      print "You have already fired on that coordinate. Please enter a new one:\n> "
-      shot = gets.chomp.upcase
-    end
     computer_board.cells[shot].fire_upon
     shot
   end
