@@ -1,17 +1,17 @@
 require './lib/board'
 
 class Computer
-  attr_reader :board, :cruiser, :submarine
+  attr_reader :board, :cruiser, :submarine, :ships
 
   def initialize
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 2)
     @submarine = Ship.new("Submarine", 3)
+    @ships = [@cruiser, @submarine]
   end
 
   def setup
-    ships = [@cruiser, @submarine]
-    ships.each { |ship| assign_coordinates(ship) }
+    @ships.each { |ship| assign_coordinates(ship) }
     puts "I have laid out my ships on the grid."
   end
 
@@ -47,10 +47,23 @@ class Computer
     [direction, starting_row, starting_column, cell]
   end
 
-  def shoot
-    available_cells = @board.cells.keys.find_all { |key| board.cells[key].fired_upon? == false }
+  def shoot(player_board)
+    available_cells = player_board.cells.keys.find_all { |key| player_board.cells[key].fired_upon? == false }
     shot = available_cells.sample
-    @board.cells[shot].fire_upon
+    player_board.cells[shot].fire_upon
     shot
+  end
+
+  def result(shot, computer_board)
+    letter = computer_board.cells[shot].render
+    puts "\nYour shot on #{shot} #{meanings[letter]}."
+  end
+
+  def meanings
+    {
+      "M" => "was a miss",
+      "H" => "was a hit",
+      "X" => "sunk a ship"
+    }
   end
 end

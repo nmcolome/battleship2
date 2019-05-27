@@ -1,20 +1,16 @@
 require './lib/board'
-# require './lib/cell'
-# require './lib/ship'
-require 'pry'
 require './lib/computer'
+require './lib/player'
 
 class BattleshipRunner
 
   def initialize
     @computer = Computer.new
-    @player_board = Board.new
-    @p_cruiser = Ship.new("Cruiser", 2)
-    @p_submarine = Ship.new("Submarine", 3)
+    @player = Player.new
   end
 
   def start
-    puts "Welcome to BATTLESHIP\nEnter p to play. Enter q to quit."
+    print "Welcome to BATTLESHIP\nEnter p to play. Press any letter to quit.\n> "
     choice = gets.chomp
     setup if choice == "p"
   end
@@ -22,34 +18,40 @@ class BattleshipRunner
   def setup
     @computer.setup
     puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long."
-    puts @player_board.render
-    puts "To place your ships enter your coordinates as: A1 A2..."
-    player_setup
+    puts @player.board.render
+    print "To place your ships enter your coordinates with spaces (eg. A1 A2)"
+    @player.setup
     puts "Ok! Let's play:"
-    puts "=============COMPUTER BOARD============="
-    puts @computer.board.render
-    puts "==============PLAYER BOARD=============="
-    puts @player_board.render(true)
+    runner
   end
 
-  def player_setup
-    ships = [@p_cruiser, @p_submarine]
-    ships.each do |ship|
-      puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
-      coordinates_prompt(ship)
-    end
+  def turn
+    puts "=============COMPUTER BOARD=============\n#{@computer.board.render}"
+    puts "==============PLAYER BOARD==============\n#{@player.board.render(true)}"
+    c_shot = @computer.shoot(@player.board)
+    print "Enter the coordinate for your shot:\n> "
+    p_shot = @player.shoot(@computer.board)
+    @computer.result(p_shot, @computer.board)
+    @player.result(c_shot, @player.board)
   end
 
-  def coordinates_prompt(ship)
-    input = gets.chomp
-    cells = input.split(" ")
-    if @player_board.valid_placement?(ship, cells)
-      @player_board.place(ship, cells)
-      puts @player_board.render(true)
-    else
-      puts "Those are invalid coordinates. Please try again:"
-      coordinates_prompt(ship)
+  def runner
+    until health_calculator(@computer) == 0 || health_calculator(@player) == 0
+      turn
     end
+
+    if health_calculator(@computer) == 0
+      print "You won!\n"
+    elsif health_calculator(@player) == 0
+      print "I won!\n"
+    end
+    puts "=============COMPUTER BOARD=============\n#{@computer.board.render(true)}"
+    puts "==============PLAYER BOARD==============\n#{@player.board.render(true)}\n"
+    start
+  end
+
+  def health_calculator(player)
+    player.ships.inject(0) {|sum, ship| sum + ship.health}
   end
 end
 
