@@ -85,4 +85,14 @@ class BoardTest < Minitest::Test
     refute @board.valid_placement?(@cruiser, ["D3", "D4", "D5"])
     refute @board.valid_placement?(@submarine, ["D4", "E4"])
   end
+
+  def test_generator
+    rows = 4
+    columns = 4
+    result = ["A1","A2","A3","A4","B1","B2","B3","B4","C1","C2","C3","C4","D1","D2","D3","D4"]
+
+    assert result, @board.generator(rows, columns)
+  end
 end
+
+
