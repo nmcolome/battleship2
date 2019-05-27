@@ -2,6 +2,7 @@ require './lib/board'
 require 'pry'
 require './lib/computer'
 require './lib/player'
+require 'benchmark'
 
 class BattleshipRunner
 
@@ -38,17 +39,19 @@ class BattleshipRunner
 
   def runner
     turn
-    computer_health = @computer.ships.inject(0) {|sum, ship| sum + ship.health}
-    player_health = @player.ships.inject(0) {|sum, ship| sum + ship.health}
-    if computer_health == 0
-      puts "You won!\n"
+    if health_calculator(@computer) == 0
+      print "You won!\n"
       start
-    elsif player_health == 0
-      puts "I won!\n"
+    elsif health_calculator(@player) == 0
+      print "I won!\n"
       start
     else
       runner
     end
+  end
+
+  def health_calculator(player)
+    player.ships.inject(0) {|sum, ship| sum + ship.health}
   end
 end
 
