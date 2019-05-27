@@ -1,5 +1,4 @@
 require './lib/board'
-require 'pry'
 require './lib/computer'
 require './lib/player'
 
@@ -11,7 +10,7 @@ class BattleshipRunner
   end
 
   def start
-    print "Welcome to BATTLESHIP\nEnter p to play. Enter q to quit.\n> "
+    print "Welcome to BATTLESHIP\nEnter p to play. Press any letter to quit.\n> "
     choice = gets.chomp
     setup if choice == "p"
   end
@@ -37,16 +36,18 @@ class BattleshipRunner
   end
 
   def runner
-    turn
+    until health_calculator(@computer) == 0 || health_calculator(@player) == 0
+      turn
+    end
+
     if health_calculator(@computer) == 0
       print "You won!\n"
-      start
     elsif health_calculator(@player) == 0
       print "I won!\n"
-      start
-    else
-      runner
     end
+    puts "=============COMPUTER BOARD=============\n#{@computer.board.render(true)}"
+    puts "==============PLAYER BOARD==============\n#{@player.board.render(true)}\n"
+    start
   end
 
   def health_calculator(player)
