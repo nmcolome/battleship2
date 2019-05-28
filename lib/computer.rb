@@ -56,8 +56,8 @@ class Computer
     shot
   end
 
-  def result(shot, computer_board)
-    letter = computer_board.cells[shot].render
+  def result(shot, board)
+    letter = board.cells[shot].render
     puts "\nYour shot on #{shot} #{meanings[letter]}."
   end
 

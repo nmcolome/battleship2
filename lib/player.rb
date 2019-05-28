@@ -32,7 +32,7 @@ class Player
   def shoot(computer_board)
     shot = gets.chomp.upcase
     while !computer_board.valid_coordinate?(shot) || computer_board.cells[shot].fired_upon?
-      coordinate_feedback(shot)
+      coordinate_feedback(computer_board, shot)
       shot = gets.chomp.upcase
     end
 
@@ -40,16 +40,16 @@ class Player
     shot
   end
 
-  def coordinate_feedback(computer_board, shot)
-    if !computer_board.valid_coordinate?(shot)
+  def coordinate_feedback(board, shot)
+    if !board.valid_coordinate?(shot)
       print "Please enter a valid coordinate:\n> "
     else
       print "You have already fired on that cell. Please enter a new one:\n> "
     end
   end
 
-  def result(shot, player_board)
-    letter = player_board.cells[shot].render
+  def result(shot, board)
+    letter = board.cells[shot].render
     puts "My shot on #{shot} #{meanings[letter]}."
   end
 
