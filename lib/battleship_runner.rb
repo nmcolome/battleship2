@@ -38,16 +38,16 @@ class BattleshipRunner
       turn
     end
 
-    who_won
     boards_printer(true)
-    start
+    who_won
+    BattleshipRunner.new.start
   end
 
   def who_won
     if health_calculator(@computer).zero?
-      print "You won!\n"
+      puts "You won!\n"
     elsif health_calculator(@player).zero?
-      print "I won!\n"
+      puts "I won!\n"
     end
   end
 
@@ -56,6 +56,7 @@ class BattleshipRunner
     puts @computer.board.render(option)
     puts "==============PLAYER BOARD==============\n"
     puts @player.board.render(true)
+    puts "\n"
   end
 
   def health_calculator(player)
