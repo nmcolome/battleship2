@@ -16,9 +16,9 @@ class BattleshipRunner
 
   def setup
     @computer.setup
-    puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long."
+    puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long.\n"
     puts @player.board.render
-    print 'To place your ships enter your coordinates with spaces (eg. A1 A2)'
+    print "To place your ships enter your coordinates with spaces (eg. A1 A2)\n"
     @player.setup
     puts "Ok! Let's play:"
     runner
@@ -40,14 +40,15 @@ class BattleshipRunner
 
     boards_printer(true)
     who_won
+    puts "\n"
     BattleshipRunner.new.start
   end
 
   def who_won
     if health_calculator(@computer).zero?
-      puts "You won!\n"
+      puts "You won!"
     elsif health_calculator(@player).zero?
-      puts "I won!\n"
+      puts "I won!"
     end
   end
 
