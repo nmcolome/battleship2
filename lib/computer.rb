@@ -1,15 +1,7 @@
 require './lib/board'
+require './lib/user'
 
-class Computer
-  attr_reader :board, :cruiser, :submarine, :ships
-
-  def initialize
-    @board = Board.new(4, 4) # TODO: take input from user
-    @cruiser = Ship.new('Cruiser', 2)
-    @submarine = Ship.new('Submarine', 3)
-    @ships = [@cruiser, @submarine]
-  end
-
+class Computer < User
   def setup
     @ships.each { |ship| assign_coordinates(ship) }
     puts 'I have laid out my ships on the grid.'
@@ -54,18 +46,5 @@ class Computer
     shot = available_cells.sample
     player_board.cells[shot].fire_upon
     shot
-  end
-
-  def result(shot, board)
-    letter = board.cells[shot].render
-    puts "\nYour shot on #{shot} #{meanings[letter]}."
-  end
-
-  def meanings
-    {
-      'M' => 'was a miss',
-      'H' => 'was a hit',
-      'X' => 'sunk a ship'
-    }
   end
 end

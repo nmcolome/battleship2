@@ -1,15 +1,7 @@
 require './lib/board'
+require './lib/user'
 
-class Player
-  attr_reader :board, :cruiser, :submarine, :ships
-
-  def initialize
-    @board = Board.new(4, 4) # TODO: take input from user
-    @cruiser = Ship.new('Cruiser', 2)
-    @submarine = Ship.new('Submarine', 3)
-    @ships = [@cruiser, @submarine]
-  end
-
+class Player < User
   def setup
     @ships.each do |ship|
       print "Enter the cells for the #{ship.name} (#{ship.length} spaces):\n> "
@@ -48,16 +40,7 @@ class Player
     end
   end
 
-  def result(shot, board)
-    letter = board.cells[shot].render
+  def shot_feedback(shot, letter)
     puts "My shot on #{shot} #{meanings[letter]}."
-  end
-
-  def meanings
-    {
-      'M' => 'was a miss',
-      'H' => 'was a hit',
-      'X' => 'sunk a ship'
-    }
   end
 end
