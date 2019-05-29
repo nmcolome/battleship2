@@ -3,7 +3,7 @@ require './lib/user'
 
 class Computer < User
   def setup
-    @ships.each { |ship| assign_coordinates(ship) }
+    @ships.values.each { |ship| assign_coordinates(ship) }
     puts 'I have laid out my ships on the grid.'
   end
 
