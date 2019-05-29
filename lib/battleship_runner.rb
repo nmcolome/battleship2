@@ -11,12 +11,12 @@ class BattleshipRunner
   end
 
   def setup
-    board_prompt
-    ships_prompt
-    @computer = Computer.new(size[0], size[1])
-    @player = Player.new(size[0], size[1])
+    size = board_prompt
+    ships_data = ships_prompt
+    @computer = Computer.new(size[0], size[1], ships_data)
+    @player = Player.new(size[0], size[1], ships_data)
     @computer.setup
-    puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long."
+    puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long." # TODO: Change this sentence depending on ships
     puts @player.board.render
     puts 'To place your ships enter your coordinates with spaces (eg. A1 A2)'
     @player.setup
@@ -26,7 +26,7 @@ class BattleshipRunner
 
   def board_prompt
     print "Please enter the number of rows & columns of the board (eg 4 4).\n> "
-    size = gets.chomp.split(' ')
+    gets.chomp.split(' ')
   end
 
   def ships_prompt
