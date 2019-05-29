@@ -1,8 +1,8 @@
 class User
   attr_reader :board, :cruiser, :submarine, :ships
 
-  def initialize
-    @board = Board.new(4, 4) # TODO: take input from user
+  def initialize(row, column)
+    @board = Board.new(row.to_i, column.to_i)
     @cruiser = Ship.new('Cruiser', 2)
     @submarine = Ship.new('Submarine', 3)
     @ships = [@cruiser, @submarine]

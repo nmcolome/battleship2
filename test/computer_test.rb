@@ -4,8 +4,8 @@ require './lib/player'
 
 class ComputerTest < Minitest::Test
   def setup
-    @computer = Computer.new
-    @player = Player.new
+    @computer = Computer.new(4, 4)
+    @player = Player.new(4, 4)
   end
 
   def test_the_coordinates_generator_for_the_computer_ship_placement

@@ -12,11 +12,11 @@ class Board
   end
 
   def generator(row, column)
-    rows = [*'A'..'Z'][0...row]
-    cols = [*1..column]
-    cells = rows.map do |letter|
-      letters = Array.new(rows.length, letter)
-      letters.zip(cols)
+    @rows = [*'A'..'Z'][0...row]
+    @cols = [*1..column]
+    cells = @rows.map do |letter|
+      letters = Array.new(@rows.length, letter)
+      letters.zip(@cols)
     end
     cells.flatten(1).map { |cell| cell.join('') }
   end
