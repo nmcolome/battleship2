@@ -75,26 +75,18 @@ class Board
   end
 
   def render(option = false)
-    space = [' ']
-    table = space + @cols
+    table = [' '] + @cols
     render_cells(table, option)
-    add_new_lines(table)
+    table << "\n"
     table.join(' ')
   end
 
   def render_cells(table, option = false)
     @rows.each do |row|
-      table << row
+      table << "\n" + row
       @cells.each do |key, value|
         table << value.render(option) if key.include?(row)
       end
     end
-  end
-
-  def add_new_lines(table)
-    table.each_with_index do |element, index|
-      table[index] = "\n" + element if @rows.include?(element)
-    end
-    table << "\n"
   end
 end
