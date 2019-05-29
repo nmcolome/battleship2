@@ -3,11 +3,6 @@ require './lib/computer'
 require './lib/player'
 
 class BattleshipRunner
-  def initialize
-    @computer = Computer.new
-    @player = Player.new
-  end
-
   def start
     print "Welcome to BATTLESHIP\nEnter p to play. Press any letter to quit.\n> "
     choice = gets.chomp
@@ -15,10 +10,15 @@ class BattleshipRunner
   end
 
   def setup
+    print "Please enter the number of rows & columns of the board (eg 4 4).\n> "
+    size = gets.chomp.split(' ')
+    @computer = Computer.new(size[0], size[1])
+    @player = Player.new(size[0], size[1])
+
     @computer.setup
-    puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long.\n"
+    puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long."
     puts @player.board.render
-    print "To place your ships enter your coordinates with spaces (eg. A1 A2)\n"
+    puts "To place your ships enter your coordinates with spaces (eg. A1 A2)"
     @player.setup
     puts "Ok! Let's play:"
     runner
