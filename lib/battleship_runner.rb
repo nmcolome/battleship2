@@ -1,6 +1,7 @@
 require './lib/board'
 require './lib/computer'
 require './lib/player'
+require 'pry'
 
 class BattleshipRunner
   def start
@@ -11,6 +12,9 @@ class BattleshipRunner
 
   def setup
     board_prompt
+    ships_prompt
+    @computer = Computer.new(size[0], size[1])
+    @player = Player.new(size[0], size[1])
     @computer.setup
     puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long."
     puts @player.board.render
@@ -23,8 +27,26 @@ class BattleshipRunner
   def board_prompt
     print "Please enter the number of rows & columns of the board (eg 4 4).\n> "
     size = gets.chomp.split(' ')
-    @computer = Computer.new(size[0], size[1])
-    @player = Player.new(size[0], size[1])
+  end
+
+  def ships_prompt
+    print "Press y to create your ships. Press p to use 2 ships by default:\n> "
+    option = gets.chomp.downcase
+
+    if option == 'y'
+      print 'Please enter the name and size of the ship you want (eg. Cruiser 3).'
+      print " Press p when you're done\n> "
+      ships_data = []
+      ship_info = gets.chomp.downcase
+      until ship_info == 'p' do
+        ships_data << ship_info.split(' ')
+        print "Please enter the name and size of the ship you want.\n> "
+        ship_info = gets.chomp.downcase
+      end
+    else
+      ships_data = [["submarine", "3"], ["destroyer", "2"]]
+    end
+    ships_data
   end
 
   def turn
