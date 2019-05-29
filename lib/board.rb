@@ -1,5 +1,5 @@
 require './lib/cell'
-
+require 'pry'
 class Board
   attr_reader :cells
 
@@ -38,16 +38,16 @@ class Board
   end
 
   def rows_and_columns(coordinates)
-    ranges = coordinates.map { |e| e.split('') }.transpose
-    columns = ranges[0]
-    rows = ranges[1].map(&:to_i)
-    consecutive_coordinates?(rows, columns)
+    columns = coordinates.map { |coord| coord.scan(/\d+/) }
+    cols = columns.flatten.map(&:to_i)
+    rows = coordinates.map { |coord| coord.scan(/[A-Z]+/) }
+    consecutive_coordinates?(rows, cols)
   end
 
   def consecutive_coordinates?(rows, columns)
-    if columns.uniq.count == 1 && consecutive?(@cols, rows)
+    if rows.uniq.count == 1 && consecutive?(@cols, columns)
       true
-    elsif rows.uniq.count == 1 && consecutive?(@rows, columns)
+    elsif columns.uniq.count == 1 && consecutive?(@rows, rows)
       true
     else
       false
