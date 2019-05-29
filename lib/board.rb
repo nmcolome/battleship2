@@ -45,28 +45,19 @@ class Board
   end
 
   def consecutive_coordinates?(rows, columns)
-    if columns.uniq.count == 1 && consecutive_rows?(rows)
+    if columns.uniq.count == 1 && consecutive?(@cols, rows)
       true
-    elsif rows.uniq.count == 1 && consecutive_columns?(columns)
+    elsif rows.uniq.count == 1 && consecutive?(@rows, columns)
       true
     else
       false
     end
   end
 
-  def consecutive_columns?(columns)
-    letters = @cells.keys.map { |e| e.split('') }.transpose[0].uniq
+  def consecutive?(reference, comparison)
     validation = []
-    letters.each_cons(columns.count) { |a| validation << (columns == a) }
+    reference.each_cons(comparison.count) { |a| validation << (comparison == a) }
     validation.any? { |e| e == true }
-  end
-
-  def consecutive_rows?(rows)
-    differences = []
-    rows[0...-1].each_with_index do |r, i|
-      differences << (rows[i + 1] - r)
-    end
-    differences.all? { |e| e == 1 }
   end
 
   def place(ship, coordinates)
