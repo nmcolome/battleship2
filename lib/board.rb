@@ -75,14 +75,15 @@ class Board
   end
 
   def render(option = false)
-    table = [' ', 1, 2, 3, 4]
+    space = [' ']
+    table = space + @cols
     render_cells(table, option)
     add_new_lines(table)
     table.join(' ')
   end
 
   def render_cells(table, option = false)
-    %w[A B C D].each do |row|
+    @rows.each do |row|
       table << row
       @cells.each do |key, value|
         table << value.render(option) if key.include?(row)
@@ -92,7 +93,7 @@ class Board
 
   def add_new_lines(table)
     table.each_with_index do |element, index|
-      table[index] = "\n" + element if %w[A B C D].include?(element)
+      table[index] = "\n" + element if @rows.include?(element)
     end
     table << "\n"
   end
