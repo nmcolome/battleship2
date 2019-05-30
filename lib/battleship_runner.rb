@@ -43,8 +43,10 @@ class BattleshipRunner
         print "Please enter the name and size of the ship you want.\n> "
         ship_info = gets.chomp.downcase
       end
-    else
+    elsif option == 'p'
       ships_data = [["submarine", "3"], ["destroyer", "2"]]
+    else
+      ships_prompt
     end
     ships_data
   end
@@ -86,7 +88,7 @@ class BattleshipRunner
   end
 
   def health_calculator(player)
-    player.ships.inject(0) { |sum, ship| sum + ship.health }
+    player.ships.values.inject(0) { |sum, ship| sum + ship.health }
   end
 end
 
