@@ -13,13 +13,11 @@ class BattleshipRunner
   def setup
     size = board_prompt
     ships_data = ships_prompt
-    binding.pry
-    @computer = Computer.new(size[0], size[1], ships_data)
-    @player = Player.new(size[0], size[1], ships_data)
+    @computer = Computer.new(size, ships_data)
+    @player = Player.new(size, ships_data)
     @computer.setup
     puts "You now need to lay out your #{@player.ships.count} ships."
-    binding.pry
-    @player.ships "The Cruiser is two units long and the Submarine is three units long." # TODO: Change this sentence depending on ships
+    #TODO: build sentence depending on ships
     puts @player.board.render
     puts 'To place your ships enter your coordinates with spaces (eg. A1 A2)'
     @player.setup

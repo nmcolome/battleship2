@@ -1,8 +1,8 @@
 class User
   attr_reader :board, :ships
 
-  def initialize(row, column, ships_data)
-    @board = Board.new(row.to_i, column.to_i)
+  def initialize(size, ships_data)
+    @board = Board.new(size[0], size[1])
     ship_generator(ships_data)
   end
 
