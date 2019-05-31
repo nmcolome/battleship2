@@ -13,10 +13,13 @@ class BattleshipRunner
   def setup
     size = board_prompt
     ships_data = ships_prompt
+    binding.pry
     @computer = Computer.new(size[0], size[1], ships_data)
     @player = Player.new(size[0], size[1], ships_data)
     @computer.setup
-    puts "You now need to lay out your two ships.\nThe Cruiser is two units long and the Submarine is three units long." # TODO: Change this sentence depending on ships
+    puts "You now need to lay out your #{@player.ships.count} ships."
+    binding.pry
+    @player.ships "The Cruiser is two units long and the Submarine is three units long." # TODO: Change this sentence depending on ships
     puts @player.board.render
     puts 'To place your ships enter your coordinates with spaces (eg. A1 A2)'
     @player.setup
@@ -26,27 +29,40 @@ class BattleshipRunner
 
   def board_prompt
     print "Please enter the number of rows & columns of the board (eg 4 4).\n> "
-    gets.chomp.split(' ')
+    dimensions = gets.chomp.split(' ').map(&:to_i)
+    until dimensions.count == 2 && dimensions.none? {|e| e.zero? }
+      print "Please enter valid dimensions.\n> "
+      dimensions = gets.chomp.split(' ').map(&:to_i)
+    end
+    dimensions
   end
 
   def ships_prompt
     print "Press y to create your ships. Press p to use 2 ships by default:\n> "
     option = gets.chomp.downcase
+    ships_data = ships_prompt_path(option)
+  end
 
+  def ships_prompt_path(option)
     if option == 'y'
       print 'Please enter the name and size of the ship you want (eg. Cruiser 3).'
-      print " Press p when you're done\n> "
-      ships_data = []
-      ship_info = gets.chomp.downcase
-      until ship_info == 'p' do
-        ships_data << ship_info.split(' ')
-        print "Please enter the name and size of the ship you want.\n> "
-        ship_info = gets.chomp.downcase
-      end
+      print " Enter 'done' when you're finished\n> "
+      ships_prompt_loop
     elsif option == 'p'
-      ships_data = [["submarine", "3"], ["destroyer", "2"]]
+      [%w[submarine 3], %w[destroyer 2]]
     else
       ships_prompt
+    end
+  end
+
+  def ships_prompt_loop
+    ships_data = []
+    ship_info = gets.chomp.downcase
+
+    until ship_info == 'done'
+      ships_data << ship_info.split(' ')
+      print "Please enter the name and size of the ship or enter 'done'\n> "
+      ship_info = gets.chomp.downcase
     end
     ships_data
   end
