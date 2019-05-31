@@ -16,13 +16,20 @@ class BattleshipRunner
     @computer = Computer.new(size, ships_data)
     @player = Player.new(size, ships_data)
     @computer.setup
-    puts "You now need to lay out your #{@player.ships.count} ships."
-    #TODO: build sentence depending on ships
-    puts @player.board.render
+    ships_description_msg(ships_data)
     puts 'To place your ships enter your coordinates with spaces (eg. A1 A2)'
     @player.setup
     puts "Ok! Let's play:"
     runner
+  end
+
+  def ships_description_msg(ships)
+    puts "You now need to lay out your #{ships.count} ships."
+    sentences = ships.map { |ship| "the #{ship[0]} is #{ship[1]} units long" }
+    phrase = sentences.join(', ')
+    phrase.insert(phrase.rindex(',') + 1, ' and')
+    puts phrase.capitalize + "."
+    puts @player.board.render
   end
 
   def board_prompt
