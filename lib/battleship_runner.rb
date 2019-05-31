@@ -1,11 +1,10 @@
 require './lib/board'
 require './lib/computer'
 require './lib/player'
-require 'pry'
 
 class BattleshipRunner
   def start
-    print "Welcome to BATTLESHIP\nEnter p to play. Press any letter to quit.\n> "
+    print "Welcome to BATTLESHIP\nEnter p to play. Press any key to quit.\n> "
     choice = gets.chomp
     setup if choice == 'p'
   end
@@ -25,17 +24,21 @@ class BattleshipRunner
 
   def ships_description_msg(ships)
     puts "You now need to lay out your #{ships.count} ships."
+    puts msg_builder(ships)
+    puts @player.board.render
+  end
+
+  def msg_builder(ships)
     sentences = ships.map { |ship| "the #{ship[0]} is #{ship[1]} units long" }
     phrase = sentences.join(', ')
     phrase.insert(phrase.rindex(',') + 1, ' and') if ships.count > 1
-    puts phrase.capitalize + "."
-    puts @player.board.render
+    phrase.capitalize + '.'
   end
 
   def board_prompt
     print "Please enter the number of rows & columns of the board (eg 4 4).\n> "
     dimensions = gets.chomp.split(' ').map(&:to_i)
-    until dimensions.count == 2 && dimensions.none? {|e| e.zero? }
+    until dimensions.count == 2 && dimensions.none?(&:zero?)
       print "Please enter valid dimensions.\n> "
       dimensions = gets.chomp.split(' ').map(&:to_i)
     end
@@ -45,12 +48,12 @@ class BattleshipRunner
   def ships_prompt
     print "Press y to create your ships. Press p to use 2 ships by default:\n> "
     option = gets.chomp.downcase
-    ships_data = ships_prompt_path(option)
+    ships_prompt_path(option)
   end
 
   def ships_prompt_path(option)
     if option == 'y'
-      print 'Please enter the name and size of the ship you want (eg. Cruiser 3).'
+      print 'Please enter the name and size of the ship (eg. Cruiser 3).'
       print " Enter 'done' when you're finished\n> "
       ships_prompt_loop
     elsif option == 'p'
