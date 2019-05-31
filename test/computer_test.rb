@@ -4,7 +4,7 @@ require './lib/player'
 
 class ComputerTest < Minitest::Test
   def setup
-    ships = [['cruiser', '3'], ['submarine', '3']]
+    ships = [%w[cruiser 3], %w[submarine 3]]
     @computer = Computer.new(4, 4, ships)
     @player = Player.new(4, 4, ships)
   end

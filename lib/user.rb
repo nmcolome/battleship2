@@ -7,7 +7,7 @@ class User
   end
 
   def ship_generator(ships_data)
-    @ships = Hash.new
+    @ships = {}
     ships_data.each do |ship|
       @ships[ship[0]] = Ship.new(ship[0].capitalize, ship[1].to_i)
     end
