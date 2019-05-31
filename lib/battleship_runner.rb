@@ -11,8 +11,8 @@ class BattleshipRunner
   end
 
   def setup
-    size = board_prompt
     ships_data = ships_prompt
+    size = board_prompt
     @computer = Computer.new(size, ships_data)
     @player = Player.new(size, ships_data)
     @computer.setup
@@ -27,7 +27,7 @@ class BattleshipRunner
     puts "You now need to lay out your #{ships.count} ships."
     sentences = ships.map { |ship| "the #{ship[0]} is #{ship[1]} units long" }
     phrase = sentences.join(', ')
-    phrase.insert(phrase.rindex(',') + 1, ' and')
+    phrase.insert(phrase.rindex(',') + 1, ' and') if ships.count > 1
     puts phrase.capitalize + "."
     puts @player.board.render
   end
@@ -64,12 +64,23 @@ class BattleshipRunner
     ships_data = []
     ship_info = gets.chomp.downcase
 
-    until ship_info == 'done'
-      ships_data << ship_info.split(' ')
-      print "Please enter the name and size of the ship or enter 'done'\n> "
+    until ship_info == 'done' && !ships_data.empty?
+      input = ship_info.split(' ')
+      ship_input_validation(ships_data, input)
       ship_info = gets.chomp.downcase
     end
     ships_data
+  end
+
+  def ship_input_validation(ships_data, input)
+    if input[0] == 'done' && ships_data.empty?
+      print "You must enter at least one ship\n> "
+    elsif input.count == 2 && input[0].match?(/[a-zA-Z]+/) && input[1].to_i != 0
+      ships_data << input
+      print "Please enter the name and size of the ship or enter 'done'\n> "
+    else
+      print "Please enter a valid name and size or enter 'done'\n> "
+    end
   end
 
   def turn
