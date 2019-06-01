@@ -3,7 +3,7 @@ require './lib/user'
 
 class Player < User
   def setup
-    @ships.each do |ship|
+    @ships.values.each do |ship|
       print "Enter the cells for the #{ship.name} (#{ship.length} spaces):\n> "
       coordinates_prompt(ship)
     end

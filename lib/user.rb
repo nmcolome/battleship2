@@ -1,11 +1,16 @@
 class User
-  attr_reader :board, :cruiser, :submarine, :ships
+  attr_reader :board, :ships
 
-  def initialize(row, column)
-    @board = Board.new(row.to_i, column.to_i)
-    @cruiser = Ship.new('Cruiser', 2)
-    @submarine = Ship.new('Submarine', 3)
-    @ships = [@cruiser, @submarine]
+  def initialize(size, ships_data)
+    @board = Board.new(size[0], size[1])
+    ship_generator(ships_data)
+  end
+
+  def ship_generator(ships_data)
+    @ships = {}
+    ships_data.each do |ship|
+      @ships[ship[0]] = Ship.new(ship[0].capitalize, ship[1].to_i)
+    end
   end
 
   def meanings
