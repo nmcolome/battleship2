@@ -4,9 +4,10 @@ require './lib/player'
 
 class ComputerTest < Minitest::Test
   def setup
+    size = [4, 4]
     ships = [%w[cruiser 3], %w[submarine 3]]
-    @computer = Computer.new(4, 4, ships)
-    @player = Player.new(4, 4, ships)
+    @computer = Computer.new(size, ships)
+    @player = Player.new(size, ships)
   end
 
   def test_the_coordinates_generator_for_the_computer_ship_placement
