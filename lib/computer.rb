@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/user'
+require 'pry'
 
 class Computer < User
   def setup
@@ -40,11 +41,13 @@ class Computer < User
   end
 
   def shoot(player_board)
-    available_cells = player_board.cells.keys.find_all do |key|
-      player_board.cells[key].fired_upon? == false
-    end
-    shot = available_cells.sample
+    binding.pry
+    shot = available_cells(player_board).sample
     player_board.cells[shot].fire_upon
     shot
+  end
+
+  def available_cells(board)
+    board.cells.keys.find_all { |key| board.cells[key].fired_upon? == false }
   end
 end
