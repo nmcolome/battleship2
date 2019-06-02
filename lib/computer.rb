@@ -40,14 +40,30 @@ class Computer < User
     [direction, starting_row, starting_column, cell]
   end
 
-  def shoot(player_board)
-    binding.pry
-    shot = available_cells(player_board).sample
-    player_board.cells[shot].fire_upon
-    shot
-  end
+  # def shoot(player_board)
+  #   binding.pry
+  #   shot = available_cells(player_board).sample
+  #   player_board.cells[shot].fire_upon
+  #   shot
+  # end
 
   def available_cells(board)
     board.cells.keys.find_all { |key| board.cells[key].fired_upon? == false }
+  end
+
+  def shoot(player_board)
+    binding.pry
+    if @shots.empty?
+      shot = player_board.cells.keys.sample
+      player_board.cells[shot].fire_upon
+      @shots << shot
+    elsif player_board.cells[@shots[-1]].render == "H"
+      #do someting
+    else
+      shot = available_cells(player_board).sample
+      player_board.cells[shot].fire_upon
+      @shots << shot
+    end
+    shot
   end
 end
