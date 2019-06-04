@@ -57,7 +57,8 @@ class Computer < User
       shot = player_board.cells.keys.sample
       player_board.cells[shot].fire_upon
       @shots << shot
-    elsif player_board.cells[@shots[-1]].render == "H"
+    elsif player_board.cells[@shots[-1]].render == "H" || player_board.cells[@shots[-2]].render == "H"
+      #
       #do someting
     else
       shot = available_cells(player_board).sample
