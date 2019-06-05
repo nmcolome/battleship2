@@ -49,8 +49,8 @@ class Computer < User
   end
 
   def available_surrounding_cells(player_board)
-    hit = hits(player_board).sample.split('')
-    row, col = hit[0], hit[1].to_i
+    hit = hits(player_board).sample
+    row, col = hit.scan(/[A-Z]+/)[0], hit.scan(/\d+/)[0].to_i
     surrounding_rows = surrounding_cells(player_board.rows, row)
     surrounding_cols = surrounding_cells(player_board.cols, col)
     horizontal = Array.new(surrounding_cols.length, row)
@@ -61,17 +61,6 @@ class Computer < User
     cells = pairs.map { |pair| pair.join('') }
     cells.select { |shot| player_board.cells[shot].fired_upon? == false }
   end
-
-  # def surrounding_rows(board, row)
-  #   if board.rows[0] == row
-  #     board.rows[0..1]
-  #   elsif board.rows[-1] == row
-  #     board.rows[-2..-1]
-  #   else
-  #     row_i = board.rows.index(row)
-  #     board.rows[(row_i - 1)..(row_i + 1)]
-  #   end
-  # end
 
   def surrounding_cells(reference, element)
     if reference[0] == element
