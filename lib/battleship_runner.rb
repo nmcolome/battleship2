@@ -57,7 +57,7 @@ class BattleshipRunner
       print " Enter 'done' when you're finished\n> "
       ships_prompt_loop
     elsif option == 'p'
-      [%w[submarine 3], %w[destroyer 2]]
+      [%w[destroyer 2], %w[submarine 3]]
     else
       ships_prompt
     end
