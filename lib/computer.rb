@@ -10,7 +10,7 @@ class Computer < User
 
   def assign_coordinates(ship)
     direction, starting_row, starting_column = random_cell_generator
-    pairs = coordinates_generator(direction, starting_row, starting_column, ship)
+    pairs = coord_generator(direction, starting_row, starting_column, ship)
     cells = pairs.map { |pair| pair.join('') }
     if @board.valid_placement?(ship, cells)
       @board.place(ship, cells)
@@ -19,7 +19,7 @@ class Computer < User
     end
   end
 
-  def coordinates_generator(direction, starting_row, starting_column, ship)
+  def coord_generator(direction, starting_row, starting_column, ship)
     abc = [*'A'..'Z']
     if direction == 'horizontal'
       rows = Array.new(ship.length, starting_row)
@@ -50,19 +50,22 @@ class Computer < User
 
   def available_surrounding_cells(player_board)
     hit = hits(player_board).sample
-    row, col = hit.scan(/[A-Z]+/)[0], hit.scan(/\d+/)[0].to_i
-    surrounding_rows = surrounding_cells(player_board.rows, row)
-    surrounding_cols = surrounding_cells(player_board.cols, col)
-    horizontal = Array.new(surrounding_cols.length, row)
-    horiz_cells = horizontal.zip(surrounding_cols)
-    vertical = Array.new(surrounding_rows.length, col)
-    verti_cells = (surrounding_rows).zip(vertical)
-    pairs = horiz_cells | verti_cells
-    cells = pairs.map { |pair| pair.join('') }
+    row = hit.scan(/[A-Z]+/)[0]
+    col = hit.scan(/\d+/)[0].to_i
+    cells = surrounding_cells(player_board, row, col)
     cells.select { |shot| player_board.cells[shot].fired_upon? == false }
   end
 
-  def surrounding_cells(reference, element)
+  def surrounding_cells(player_board, row, col)
+    surrounding_rows = surrounding_elements(player_board.rows, row)
+    surrounding_cols = surrounding_elements(player_board.cols, col)
+    horiz_cells = cells_builder(surrounding_cols, row)
+    verti_cells = cells_builder(surrounding_rows, col)
+
+    horiz_cells | verti_cells
+  end
+
+  def surrounding_elements(reference, element)
     if reference[0] == element
       reference[0..1]
     elsif reference[-1] == element
@@ -73,6 +76,16 @@ class Computer < User
     end
   end
 
+  def cells_builder(surrounding, reference)
+    common = Array.new(surrounding.length, reference)
+    pairs = if reference.class == String
+              common.zip(surrounding)
+            else
+              surrounding.zip(common)
+            end
+    pairs.map { |pair| pair.join('') }
+  end
+
   def shoot(player_board)
     if @shots.empty?
       shot = player_board.cells.keys.sample
@@ -81,7 +94,11 @@ class Computer < User
     else
       shot = available_cells(player_board).sample
     end
-    player_board.cells[shot].fire_upon
+    fire(player_board, shot)
+  end
+
+  def fire(board, shot)
+    board.cells[shot].fire_upon
     @shots << shot
     shot
   end
