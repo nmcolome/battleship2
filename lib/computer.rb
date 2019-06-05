@@ -86,9 +86,7 @@ class Computer < User
   end
 
   def shoot(player_board)
-    if @shots.empty?
-      shot = player_board.cells.keys.sample
-    elsif !hits(player_board).empty?
+    if !hits(player_board).empty?
       shot = available_surrounding_cells(player_board).sample while shot.nil?
     else
       shot = available_cells(player_board).sample

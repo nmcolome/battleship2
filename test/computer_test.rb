@@ -13,10 +13,10 @@ class ComputerTest < Minitest::Test
   def test_the_coordinates_generator_for_the_computer_ship_placement
     @ship = Ship.new('Cruiser', 2)
 
-    assert_equal [['B', 2], ['B', 3]], @computer.coordinates_generator('horizontal', 'B', 2, @ship)
-    assert_equal [['C', 3], ['D', 3]], @computer.coordinates_generator('vertical', 'C', 3, @ship)
-    assert_equal [['D', 4], ['D', 5]], @computer.coordinates_generator('horizontal', 'D', 4, @ship)
-    assert_equal [['D', 4], ['E', 4]], @computer.coordinates_generator('vertical', 'D', 4, @ship)
+    assert_equal [['B', 2], ['B', 3]], @computer.coord_generator('horizontal', 'B', 2, @ship)
+    assert_equal [['C', 3], ['D', 3]], @computer.coord_generator('vertical', 'C', 3, @ship)
+    assert_equal [['D', 4], ['D', 5]], @computer.coord_generator('horizontal', 'D', 4, @ship)
+    assert_equal [['D', 4], ['E', 4]], @computer.coord_generator('vertical', 'D', 4, @ship)
   end
 
   def test_it_shoots_only_new_cells
