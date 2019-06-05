@@ -56,8 +56,8 @@ class Computer < User
   end
 
   def available_surrounding_cells(player_board)
-    last_hit = hits(player_board)[-1].split('')
-    row, col = last_hit[0], last_hit[1].to_i
+    hit = hits(player_board).sample.split('')
+    row, col = hit[0], hit[1].to_i
     surrounding_rows = surrounding_rows(player_board, row)
     surrounding_cols = surrounding_cols(player_board, col)
     horizontal = Array.new(surrounding_cols.length, row)
@@ -94,17 +94,15 @@ class Computer < User
   def shoot(player_board)
     if @shots.empty?
       shot = player_board.cells.keys.sample
-      player_board.cells[shot].fire_upon
-      @shots << shot
     elsif !hits(player_board).empty?
-      shot = available_surrounding_cells(player_board).sample
-      player_board.cells[shot].fire_upon
-      @shots << shot
+      while shot.nil?
+        shot = available_surrounding_cells(player_board).sample
+      end
     else
       shot = available_cells(player_board).sample
-      player_board.cells[shot].fire_upon
-      @shots << shot
     end
+    player_board.cells[shot].fire_upon
+    @shots << shot
     shot
   end
 end
