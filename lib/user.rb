@@ -4,6 +4,7 @@ class User
   def initialize(size, ships_data)
     @board = Board.new(size[0], size[1])
     ship_generator(ships_data)
+    @shots = []
   end
 
   def ship_generator(ships_data)

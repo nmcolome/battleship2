@@ -21,14 +21,14 @@ class Player < User
     end
   end
 
-  def shoot(computer_board)
+  def shoot(board)
     shot = gets.chomp.upcase
-    while !computer_board.valid_coordinate?(shot) || computer_board.cells[shot].fired_upon?
-      coordinate_feedback(computer_board, shot)
+    while !board.valid_coordinate?(shot) || board.cells[shot].fired_upon?
+      coordinate_feedback(board, shot)
       shot = gets.chomp.upcase
     end
 
-    computer_board.cells[shot].fire_upon
+    board.cells[shot].fire_upon
     shot
   end
 

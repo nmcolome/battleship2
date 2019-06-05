@@ -1,7 +1,7 @@
 require './lib/cell'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :rows, :cols
 
   def initialize(row_number, column_number)
     cell_names = generator(row_number, column_number)
@@ -15,7 +15,7 @@ class Board
     @rows = [*'A'..'Z'][0...row]
     @cols = [*1..column]
     cells = @rows.map do |letter|
-      letters = Array.new(@rows.length, letter)
+      letters = Array.new(@cols.length, letter)
       letters.zip(@cols)
     end
     cells.flatten(1).map { |cell| cell.join('') }
