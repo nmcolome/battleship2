@@ -1,6 +1,5 @@
 require './lib/board'
 require './lib/user'
-require 'pry'
 
 class Computer < User
   def setup
