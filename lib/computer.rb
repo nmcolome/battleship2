@@ -40,13 +40,6 @@ class Computer < User
     [direction, starting_row, starting_column, cell]
   end
 
-  # def shoot(player_board)
-  #   binding.pry
-  #   shot = available_cells(player_board).sample
-  #   player_board.cells[shot].fire_upon
-  #   shot
-  # end
-
   def available_cells(board)
     board.cells.keys.find_all { |key| board.cells[key].fired_upon? == false }
   end
@@ -58,8 +51,8 @@ class Computer < User
   def available_surrounding_cells(player_board)
     hit = hits(player_board).sample.split('')
     row, col = hit[0], hit[1].to_i
-    surrounding_rows = surrounding_rows(player_board, row)
-    surrounding_cols = surrounding_cols(player_board, col)
+    surrounding_rows = surrounding_cells(player_board.rows, row)
+    surrounding_cols = surrounding_cells(player_board.cols, col)
     horizontal = Array.new(surrounding_cols.length, row)
     horiz_cells = horizontal.zip(surrounding_cols)
     vertical = Array.new(surrounding_rows.length, col)
@@ -69,25 +62,25 @@ class Computer < User
     cells.select { |shot| player_board.cells[shot].fired_upon? == false }
   end
 
-  def surrounding_rows(board, row)
-    if board.rows[0] == row
-      board.rows[0..1]
-    elsif board.rows[-1] == row
-      board.rows[-2..-1]
-    else
-      row_i = board.rows.index(row)
-      board.rows[(row_i - 1)..(row_i + 1)]
-    end
-  end
+  # def surrounding_rows(board, row)
+  #   if board.rows[0] == row
+  #     board.rows[0..1]
+  #   elsif board.rows[-1] == row
+  #     board.rows[-2..-1]
+  #   else
+  #     row_i = board.rows.index(row)
+  #     board.rows[(row_i - 1)..(row_i + 1)]
+  #   end
+  # end
 
-  def surrounding_cols(board, col)
-    if board.cols[0] == col
-      board.cols[0..1]
-    elsif board.cols[-1] == col
-      board.cols[-2..-1]
+  def surrounding_cells(reference, element)
+    if reference[0] == element
+      reference[0..1]
+    elsif reference[-1] == element
+      reference[-2..-1]
     else
-      col_i = board.cols.index(col)
-      board.cols[(col_i - 1)..(col_i + 1)]
+      element_i = reference.index(element)
+      reference[(element_i - 1)..(element_i + 1)]
     end
   end
 
@@ -95,9 +88,7 @@ class Computer < User
     if @shots.empty?
       shot = player_board.cells.keys.sample
     elsif !hits(player_board).empty?
-      while shot.nil?
-        shot = available_surrounding_cells(player_board).sample
-      end
+      shot = available_surrounding_cells(player_board).sample while shot.nil?
     else
       shot = available_cells(player_board).sample
     end
