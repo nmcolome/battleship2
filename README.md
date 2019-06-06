@@ -21,7 +21,7 @@ And you're ready to play!
 
 **Setup**
 
-The game will ask you to create your own ships or use two by default (a 2 units-long Destroyer and a 3 units-long Submarine) and to enter the height & width of the board or use the 4x4 board by default.
+The game will ask you to create your own ships or use two by default (a 2 units-long Destroyer and a 3 units-long Submarine) and to enter the height & width of the board.
 
 ![setup screenshot](./assets/setup.png)
 
