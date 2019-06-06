@@ -56,8 +56,8 @@ After placing all your ships you will be asked to enter coordinates for your sho
 
 You have to sink all of your opponents ships before they do! Be careful! If the computer hits a ship, it will start shooting surrounding cells to try to beat you!
 
-## Stack
-This game was built with Ruby 2.4.1
+## Built With
+* Ruby 2.4.1
 
 ## Testing
 All test are done with Minitest with an 80.53% code coverage (calculated with [SimpleCov](https://github.com/colszowka/simplecov))
